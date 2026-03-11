@@ -17,31 +17,50 @@ on:
 
 # Jobs defined in the workflow
 jobs:
-  linter-and-test-1:
-    # The operating system for the runner
+  linter-1:
     runs-on: ubuntu-latest
-
     steps:
-      #Let the linter access the code
       - uses: actions/checkout@v4
 
-      # Setup node
       - uses: actions/setup-node@v4
         with:
-          node-version: latest
+          node-version: 20
+          cache: "npm"
 
-      # Install the dependencies.
-      - run: npm ci
+      - name: Install dependencies
+        run: |
+          cd starter/frontend
+          npm ci
 
-      # Run the linter.
-      - run: npm run lint
+      - name: Run linter
+        run: |
+          cd starter/frontend
+          npm run lint
 
-      # Run the tests.
-      - run: npm test
+
+  test-2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: |
+          cd starter/frontend
+          npm ci
+
+      - name: Run tests
+        run: |
+          cd starter/frontend
+          npm test
 
 
   post-linter-and-test-actions:
-    needs: linter-and-test-1
+    needs: [ linter-1, test-2 ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
