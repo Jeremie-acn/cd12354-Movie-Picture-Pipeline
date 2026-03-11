@@ -1,0 +1,54 @@
+name: frontend-ci
+
+# When to trigger the pipeline
+on:
+  # Manual trigger using the workflow_dispatch event
+  workflow_dispatch:
+
+  # Automatic trigger on push events to the main branch
+  push:
+    branches:
+      - main
+
+  # Automatic trigger on pull request events targeting the main branch
+  pull_request:
+    branches:
+      - main
+
+# Jobs defined in the workflow
+jobs:
+  linter-and-test-1:
+    # The operating system for the runner
+    runs-on: ubuntu-latest
+
+    steps:
+      #Let the linter access the code
+      - uses: actions/checkout@v4
+
+      # Setup node
+      - uses: actions/setup-node@v4
+        with:
+          node-version: latest
+
+      # Install the dependencies.
+      - run: npm ci
+
+      # Run the linter.
+      - run: npm run lint
+
+      # Run the tests.
+      - run: npm test
+
+
+  post-linter-and-test-actions:
+    needs: linter-and-test-1
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build docker image
+        run: |
+          cd starter/frontend
+          docker build \
+            --build-arg REACT_APP_MOVIE_API_URL=${{ vars.REACT_APP_MOVIE_API_URL }} \
+            -t mp-frontend:latest .
