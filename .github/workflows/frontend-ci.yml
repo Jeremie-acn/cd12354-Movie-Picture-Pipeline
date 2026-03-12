@@ -1,4 +1,4 @@
-name: frontend-ci
+name:  Frontend Continuous Integration
 
 # When to trigger the pipeline
 on:

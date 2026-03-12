@@ -9,10 +9,11 @@ RUN apk update && \
   pcre-dev \
   build-base \
   gcc \
+  musl-dev \
   linux-headers \
   openssl \
   libffi-dev \
-  && pip install pipenv
+  && pip install --upgrade pip pipenv
 
 RUN mkdir -p /var/www/app && mkdir /app
 

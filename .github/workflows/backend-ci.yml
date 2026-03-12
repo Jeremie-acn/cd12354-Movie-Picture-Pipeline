@@ -1,4 +1,4 @@
-name: Backend CI
+name: Backend Continuous Integration
 
 on:
   pull_request:
@@ -61,11 +61,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Install system dependencies for uwsgi
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc python3-dev libffi-dev libpcre3-dev build-essential
 
       - name: Build Docker image
         run: docker build -t mp-backend:latest .
