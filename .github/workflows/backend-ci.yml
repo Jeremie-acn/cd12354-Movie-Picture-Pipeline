@@ -23,8 +23,8 @@ jobs:
       - name: Install pipenv
         run: pip install pipenv
 
-      - name: Install Python dependencies
-        run: pipenv install
+      - name: Install Python dependencies including dev packages
+        run: pipenv install --dev
 
       - name: Run linter
         run: pipenv run lint
