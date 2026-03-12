@@ -62,5 +62,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install Python dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install pipenv
+          pipenv install --deploy --ignore-pipfile
+
       - name: Build Docker image
         run: docker build -t mp-backend:latest .
