@@ -71,7 +71,7 @@ jobs:
         run: |
           python -m venv venv
           source venv/bin/activate
-          pip install pipenv
+          pip install --upgrade pip pipenv
           pipenv install --deploy --ignore-pipfile
 
       - name: Build Docker image
